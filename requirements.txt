@@ -1,0 +1,8 @@
+streamlit
+scikit-learn
+numpy==1.26.4
+Pillow
+opencv-python-headless
+matplotlib
+seaborn
+scipy
