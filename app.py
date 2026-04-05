@@ -70,7 +70,6 @@ def assess_image_quality(image_array: np.ndarray) -> dict:
 def analyze_prediction(fake_confidence: float, quality_score: float, threshold: float) -> dict:
     adjusted_confidence = fake_confidence
     threshold_pct = threshold * 100
-    margin = 8.0
 
     # Slightly soften predictions for poor images instead of forcing a wrong label.
     if quality_score < 45:
@@ -78,13 +77,7 @@ def analyze_prediction(fake_confidence: float, quality_score: float, threshold: 
     elif quality_score < 70:
         adjusted_confidence *= 0.92
 
-    if quality_score < 45:
-        decision = "Inconclusive"
-        badge = "Quality too low for a reliable forensic call"
-    elif abs(adjusted_confidence - threshold_pct) <= margin:
-        decision = "Inconclusive"
-        badge = "Borderline confidence around the learned decision threshold"
-    elif adjusted_confidence >= threshold_pct:
+    if adjusted_confidence >= threshold_pct:
         decision = "Fake / AI-generated"
         badge = "High-frequency artifacts lean toward synthetic content"
     else:
@@ -301,7 +294,7 @@ else:
         elif analysis["decision"] == "Real / Authentic":
             result_class = "result-real"
         else:
-            result_class = "result-neutral"
+            result_class = "result-real"
 
         st.markdown(
             f"""
@@ -312,12 +305,6 @@ else:
             """,
             unsafe_allow_html=True,
         )
-
-        if analysis["decision"] == "Inconclusive":
-            st.warning(
-                "This image does not have enough reliable signal for a strong call. "
-                "Try a sharper image or include a better-cropped face."
-            )
 
         viz_col1, viz_col2 = st.columns(2, gap="large")
         with viz_col1:
