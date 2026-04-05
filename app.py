@@ -224,8 +224,7 @@ st.markdown(
         <div class="hero-title">Deepfake Detection Studio</div>
         <p class="hero-copy">
             Upload an image to run a lightweight forensic scan using the saved classifier,
-            frequency-spectrum analysis, and a quality-aware confidence check. Low-quality
-            or borderline cases are flagged as inconclusive instead of forcing a weak result.
+            frequency-spectrum analysis.
         </p>
     </div>
     """,
